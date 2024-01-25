@@ -1,10 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, BadRequestException } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { ParticipantSubscribeDto } from './dto/participant-subscribe.dto';
 
 @Controller('auth')
 export class AuthController {
- /* constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
+  @Post('signup/?role')
+  async signUp(
+    @Query('role') role: string,
+    @Body() signUpDto: ParticipantSubscribeDto
+  ) {
+    if (role !== 'Person' && role !== 'ADMIN') {
+      throw new BadRequestException('Invalid role specified');
+    }
 
+    return this.authService.signUp(signUpDto, role as 'Person' | 'ADMIN');
+  }
+}
+/*
   @Post()
   create(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.create(createAuthDto);
@@ -29,4 +42,4 @@ export class AuthController {
   remove(@Param('id') id: string) {
     return this.authService.remove(+id);
   }*/
-}
+
